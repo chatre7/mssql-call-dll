@@ -1,0 +1,36 @@
+------------------- C# ---------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Mssql.call
+{
+    public class Main
+    {
+        public static string MyMethod(string input)
+        {
+            return "Hello " + input;
+        }
+    }
+}
+
+------------------- SQL ---------------------------
+
+--Step1 
+--sp_configure 'clr enabled', 1
+--GO
+--RECONFIGURE
+--GO
+
+--Step2
+--CREATE ASSEMBLY MyAssembly FROM 'D:\tempinstall\sqlCall\Mssql.call.dll' WITH PERMISSION_SET = SAFE
+
+--Step3
+--CREATE FUNCTION MyFunction (@input NVARCHAR(50))
+--RETURNS NVARCHAR(100)
+--AS EXTERNAL NAME [MyAssembly].[Mssql.call.Main].MyMethod
+
+--Step4
+
+--SELECT dbo.MyFunction('hello')
